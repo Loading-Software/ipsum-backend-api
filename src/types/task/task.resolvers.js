@@ -7,7 +7,7 @@ const tasks = async (_, args, { Task }) => {
 }
 
 const createTask = async (_, args, { user, Task }) => {
-  return await Task.create({ ...args, createdBy: user._id })
+  return await Task.create({ ...args.input, createdBy: user._id })
 }
 
 module.exports = {
