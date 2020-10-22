@@ -2,6 +2,12 @@ const User = require('./user.model')
 const { AuthenticationError } = require('apollo-server')
 const { createToken } = require('../../utils/auth')
 
+const userTypeMatcher = {
+  ADMIN: 'Admin',
+  TRAINER: 'Trainer',
+  ATHLETE: 'Athlete',
+}
+
 const users = async (_, __, { User }) => {
   const users = await User.find().lean().exec()
   return users
@@ -39,8 +45,12 @@ module.exports = {
     signin,
   },
   User: {
-    async tasks(user, _, { Task }) {
-      return await Task.find({ createdBy: user._id }).lean().exec()
+    async __resolveType(user, { Task }) {
+      if (user.role !== 'ATHLETE') {
+        user['tasks'] = await Task.find({ createdBy: user._id }).lean().exec()
+      }
+
+      return userTypeMatcher[user.role]
     },
   },
 }

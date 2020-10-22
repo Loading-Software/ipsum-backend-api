@@ -38,6 +38,22 @@ const userSchema = new mongoose.Schema(
     lastResetPassword: {
       type: Date,
     },
+    pathology: {
+      type: String,
+    },
+    observations: {
+      type: String,
+    },
+    birthday: {
+      type: String,
+    },
+    specialty: {
+      type: String,
+    },
+    trainer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
   },
   { timestamps: true }
 )

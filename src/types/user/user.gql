@@ -4,7 +4,22 @@ enum Role {
   ATHLETE
 }
 
-type User {
+interface User {
+  _id: ID!
+  name: String!
+  surname1: String!
+  surname2: String
+  phone: String
+  role: Role!
+  email: String!
+  password: String!
+  createdAt: String @formatDate
+  updatedAt: String @formatDate
+  resetPasswordEmailSent: String @formatDate
+  lastResetPassword: String @formatDate
+}
+
+type Admin implements User {
   _id: ID!
   name: String!
   surname1: String!
@@ -18,6 +33,42 @@ type User {
   resetPasswordEmailSent: String @formatDate
   lastResetPassword: String @formatDate
   tasks: [Task!]
+}
+
+type Trainer implements User {
+  _id: ID!
+  name: String!
+  surname1: String!
+  surname2: String
+  phone: String
+  role: Role!
+  email: String!
+  password: String!
+  createdAt: String @formatDate
+  updatedAt: String @formatDate
+  resetPasswordEmailSent: String @formatDate
+  lastResetPassword: String @formatDate
+  tasks: [Task!]
+}
+
+type Athlete implements User {
+  _id: ID!
+  name: String!
+  surname1: String!
+  surname2: String
+  phone: String
+  role: Role!
+  email: String!
+  password: String!
+  createdAt: String @formatDate
+  updatedAt: String @formatDate
+  resetPasswordEmailSent: String @formatDate
+  lastResetPassword: String @formatDate
+  pathology: String
+  observations: String
+  birthday: String
+  specialty: String
+  trainer: User
 }
 
 type AuthUser {
