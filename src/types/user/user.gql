@@ -9,6 +9,7 @@ type User {
   name: String!
   surname1: String!
   surname2: String
+  phone: String
   role: Role!
   email: String!
   password: String!
@@ -30,6 +31,7 @@ input NewUserInput {
   surname2: String
   email: String!
   password: String!
+  phone: String
   role: Role!
 }
 
