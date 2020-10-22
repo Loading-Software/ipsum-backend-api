@@ -1,0 +1,25 @@
+type Task {
+  _id: ID!
+  name: String!
+  description: String!
+  createdBy: User! @authorized(roles: [ADMIN])
+}
+
+input NewTaskInput {
+  name: String!
+  description: String!
+  #createdBy: User!
+}
+
+input UpdateTaskInput {
+  name: String!
+  description: String!
+}
+
+extend type Query {
+  tasks: [Task]! @authenticated
+}
+
+extend type Mutation {
+  createTask(input: NewTaskInput!): Task!
+}

@@ -1,0 +1,48 @@
+enum Role {
+  ADMIN
+  TRAINER
+  ATHLETE
+}
+
+type User {
+  _id: ID!
+  name: String!
+  surname1: String!
+  role: Role!
+  email: String!
+  password: String!
+  tasks: [Task!]
+}
+
+type AuthUser {
+  token: String!
+  user: User!
+}
+
+input NewUserInput {
+  name: String!
+  surname1: String!
+  email: String!
+  password: String!
+  role: Role!
+}
+
+input UpdateUserInput {
+  name: String
+}
+
+input SigninInput {
+  email: String!
+  password: String!
+}
+
+type Query {
+  users: [User]! @authenticated @authorized(roles: [ADMIN, TRAINER])
+}
+
+type Mutation {
+  createUser(input: NewUserInput!): User!
+    @authenticated
+    @authorized(roles: [ADMIN, TRAINER])
+  signin(input: SigninInput!): AuthUser!
+}
