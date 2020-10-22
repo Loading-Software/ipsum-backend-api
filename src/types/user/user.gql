@@ -8,9 +8,14 @@ type User {
   _id: ID!
   name: String!
   surname1: String!
+  surname2: String
   role: Role!
   email: String!
   password: String!
+  createdAt: String @formatDate
+  updatedAt: String @formatDate
+  resetPasswordEmailSent: String @formatDate
+  lastResetPassword: String @formatDate
   tasks: [Task!]
 }
 
@@ -22,6 +27,7 @@ type AuthUser {
 input NewUserInput {
   name: String!
   surname1: String!
+  surname2: String
   email: String!
   password: String!
   role: Role!

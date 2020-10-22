@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    password: {
+      type: String,
+      required: true,
+    },
     phone: {
       type: String,
     },
@@ -28,9 +32,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: ['ADMIN', 'TRAINER', 'ATHLETE'],
     },
-    password: {
-      type: String,
-      required: true,
+    resetPasswordEmailSent: {
+      type: Date,
+    },
+    lastResetPassword: {
+      type: Date,
     },
   },
   { timestamps: true }

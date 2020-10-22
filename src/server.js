@@ -6,9 +6,10 @@ const config = require('./config')
 const { getUserFromToken } = require('./utils/auth')
 const connect = require('./db')
 const {
+  FormatDateDirective,
   AuthenticationDirective,
   AuthorizationDirective,
-} = require('./directives/auth')
+} = require('./directives')
 const { models } = require('./types')
 
 const env = process.env.NODE_ENV
@@ -35,6 +36,7 @@ const start = async () => {
     schemaDirectives: {
       authenticated: AuthenticationDirective,
       authorized: AuthorizationDirective,
+      formatDate: FormatDateDirective,
     },
     async context({ req }) {
       const token = req.headers.authorization
