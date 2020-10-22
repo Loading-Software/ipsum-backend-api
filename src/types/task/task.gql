@@ -8,7 +8,6 @@ type Task {
 input NewTaskInput {
   name: String!
   description: String!
-  #createdBy: User!
 }
 
 input UpdateTaskInput {

@@ -37,12 +37,13 @@ input SigninInput {
 }
 
 type Query {
-  users: [User]! @authenticated @authorized(roles: [ADMIN, TRAINER])
+  users: [User]! @authorized(roles: [ADMIN, TRAINER]) @authenticated
 }
 
 type Mutation {
   createUser(input: NewUserInput!): User!
-    @authenticated
     @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
+
   signin(input: SigninInput!): AuthUser!
 }
