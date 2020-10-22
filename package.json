@@ -6,8 +6,8 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "devWin": "SET NODE_ENV=dev& node src/index.js",
-    "testingWin": "SET NODE_ENV=testing& node src/index.js",
+    "devWin": "SET NODE_ENV=dev& nodemon src/index.js",
+    "testingWin": "SET NODE_ENV=testing& nodemon src/index.js",
     "dev": "SET NODE_ENV=dev& nodemon src/index.js",
     "testing": "SET NODE_ENV=testing& nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
