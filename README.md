@@ -30,3 +30,13 @@ $ npm run test
 ```
 
 Config's files are located in **/src/config/** with the token config and db url.
+
+## Test
+
+To run the all the test
+
+```bash
+$ npm run test
+```
+
+In a near future will be scripts just to run specific test suites.
