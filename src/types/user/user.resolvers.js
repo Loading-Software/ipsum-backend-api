@@ -32,8 +32,8 @@ const signin = async (_, { input }, { User }) => {
   return { token, user }
 }
 
-const createUser = async (_, args) => {
-  return await User.create({ ...args.input })
+const createUser = async (_, { input }) => {
+  return await User.create({ ...input })
 }
 
 module.exports = {

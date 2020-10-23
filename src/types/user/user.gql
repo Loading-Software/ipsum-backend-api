@@ -80,14 +80,28 @@ input NewUserInput {
   name: String!
   surname1: String!
   surname2: String
-  email: String!
-  password: String!
   phone: String
   role: Role!
+  email: String!
+  password: String!
+  pathology: String
+  observations: String
+  birthday: String
+  specialty: String
 }
 
 input UpdateUserInput {
   name: String
+  surname1: String
+  surname2: String
+  phone: String
+  role: Role
+  email: String
+  password: String
+  pathology: String
+  observations: String
+  birthday: String
+  specialty: String
 }
 
 input SigninInput {
@@ -96,6 +110,7 @@ input SigninInput {
 }
 
 type Query {
+  user(input: ID!): User! @authorized(roles: [ADMIN, TRAINER]) @authenticated
   users: [User]! @authorized(roles: [ADMIN, TRAINER]) @authenticated
 }
 

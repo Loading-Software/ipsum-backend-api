@@ -1,6 +1,4 @@
 const { ApolloServer, gql } = require('apollo-server')
-const { loadFilesSync } = require('@graphql-tools/load-files')
-const path = require('path')
 const utilsDB = require('./utils/populateDB')
 const config = require('./config')
 const { getUserFromToken } = require('./utils/auth')
@@ -11,14 +9,7 @@ const {
   AuthorizationDirective,
 } = require('./directives')
 const { models } = require('./types')
-
-const env = process.env.NODE_ENV
-
-// Load TypesDef and resolvers
-const types = loadFilesSync(path.join(process.cwd(), 'src/**/**/*.gql'))
-const resolvers = loadFilesSync(
-  path.join(process.cwd(), 'src/types/**/*.resolvers.js')
-)
+const { schemaTypes, resolvers } = require('./utils/schema')
 
 const start = async () => {
   const rootSchema = `
@@ -27,8 +18,6 @@ const start = async () => {
       mutation: Mutation
     }
   `
-
-  const schemaTypes = types
 
   const server = new ApolloServer({
     typeDefs: [rootSchema, ...schemaTypes],
