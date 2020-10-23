@@ -15,10 +15,24 @@ input UpdateTaskInput {
   description: String!
 }
 
+input DeleteTaskInput {
+  _id: ID!
+}
+
 extend type Query {
   tasks: [Task]! @authenticated
 }
 
 extend type Mutation {
   createTask(input: NewTaskInput!): Task!
+    @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
+
+  updateTask(input: UpdateTaskInput!): Task!
+    @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
+
+  deleteTask(input: DeleteTaskInput!): Task!
+    @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
 }
