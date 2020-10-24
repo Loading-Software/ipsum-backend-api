@@ -1,4 +1,3 @@
-const User = require('./user.model')
 const { AuthenticationError } = require('apollo-server')
 const { createToken } = require('../../utils/auth')
 
@@ -8,9 +7,25 @@ const userTypeMatcher = {
   ATHLETE: 'Athlete',
 }
 
+const user = async (_, { id }, { User }) => {
+  return await User.findById(id).lean().exec()
+}
+
 const users = async (_, __, { User }) => {
   const users = await User.find().lean().exec()
   return users
+}
+
+const createUser = async (_, { input }, { User }) => {
+  return await User.create({ ...input })
+}
+
+const updateUser = async (_, { id, input }, { User }) => {
+  return await User.findByIdAndUpdate(id, input, { new: true }).lean().exec()
+}
+
+const removeUser = async (_, { id }, { User }) => {
+  return await User.findByIdAndDelete(id)
 }
 
 const signin = async (_, { input }, { User }) => {
@@ -32,16 +47,15 @@ const signin = async (_, { input }, { User }) => {
   return { token, user }
 }
 
-const createUser = async (_, { input }) => {
-  return await User.create({ ...input })
-}
-
 module.exports = {
   Query: {
+    user,
     users,
   },
   Mutation: {
     createUser,
+    updateUser,
+    removeUser,
     signin,
   },
   User: {

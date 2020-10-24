@@ -258,7 +258,7 @@ describe('User schema', () => {
       const server = mockServer(typeDefs)
       const query = `
       {
-        user(input: "23sfe3rfw3") {
+        user(id: "23sfe3rfw3") {
           _id
           name
           surname1
@@ -313,6 +313,192 @@ describe('User schema', () => {
           password: '12345',
           role: 'ADMIN',
         },
+      }
+      await expect(server.query(query, vars)).resolves.toBeTruthy()
+      const { errors } = await server.query(query, vars)
+      expect(errors).not.toBeTruthy()
+    })
+
+    test('updateUser mutation for admin', async () => {
+      const server = mockServer(typeDefs)
+      const query = `
+        mutation updateUser($id: ID!, $input: UpdateUserInput!) {
+          updateUser(id: $id, input: $input) {
+            ... on Trainer {
+              name
+              surname1
+              surname2
+              phone
+              role
+              email
+              password
+            }
+          }
+        }
+      `
+      const vars = {
+        id: 'i934ljf',
+        input: {
+          name: 'John',
+          surname1: 'James',
+          surname2: 'Rambo',
+          phone: '1946285',
+          role: 'ADMIN',
+          email: 'example@example.com',
+          password: '12345',
+        },
+      }
+      await expect(server.query(query, vars)).resolves.toBeTruthy()
+      const { errors } = await server.query(query, vars)
+      expect(errors).not.toBeTruthy()
+    })
+
+    test('updateUser mutation for trainer', async () => {
+      const server = mockServer(typeDefs)
+      const query = `
+        mutation updateUser($id: ID!, $input: UpdateUserInput!) {
+          updateUser(id: $id, input: $input) {
+            ... on Trainer {
+              name
+              surname1
+              surname2
+              phone
+              role
+              email
+              password
+            }
+          }
+        }
+      `
+      const vars = {
+        id: 'i934ljf',
+        input: {
+          name: 'John',
+          surname1: 'James',
+          surname2: 'Rambo',
+          phone: '1946285',
+          role: 'TRAINER',
+          email: 'example@example.com',
+          password: '12345',
+        },
+      }
+      await expect(server.query(query, vars)).resolves.toBeTruthy()
+      const { errors } = await server.query(query, vars)
+      expect(errors).not.toBeTruthy()
+    })
+
+    test('updateUser mutation for athlete', async () => {
+      const server = mockServer(typeDefs)
+      const query = `
+        mutation updateUser($id: ID!, $input: UpdateUserInput!) {
+          updateUser(id: $id, input: $input) {
+            ... on Athlete {
+              name
+              surname1
+              surname2
+              phone
+              role
+              email
+              password
+              pathology
+              observations
+              birthday
+              specialty
+            }
+          }
+        }
+      `
+      const vars = {
+        id: 'i934ljf',
+        input: {
+          name: 'John',
+          surname1: 'James',
+          surname2: 'Rambo',
+          phone: '1946285',
+          role: 'ATHLETE',
+          email: 'example@example.com',
+          password: '12345',
+          specialty: 'hand-to-hand combat',
+        },
+      }
+      await expect(server.query(query, vars)).resolves.toBeTruthy()
+      const { errors } = await server.query(query, vars)
+      expect(errors).not.toBeTruthy()
+    })
+
+    test('removeUser mutation for admin', async () => {
+      const server = mockServer(typeDefs)
+      const query = `
+        mutation removeUser($id: ID!) {
+          removeUser(id: $id) {
+            ... on Admin {
+              name
+              surname1
+              surname2
+              phone
+              role
+              email
+              password
+            }
+          }
+        }
+      `
+      const vars = {
+        id: 'i934ljf',
+      }
+      await expect(server.query(query, vars)).resolves.toBeTruthy()
+      const { errors } = await server.query(query, vars)
+      expect(errors).not.toBeTruthy()
+    })
+
+    test('removeUser mutation for trainer', async () => {
+      const server = mockServer(typeDefs)
+      const query = `
+        mutation removeUser($id: ID!) {
+          removeUser(id: $id) {
+            ... on Trainer {
+              name
+              surname1
+              surname2
+              phone
+              role
+              email
+              password
+            }
+          }
+        }
+      `
+      const vars = {
+        id: 'i934ljf',
+      }
+      await expect(server.query(query, vars)).resolves.toBeTruthy()
+      const { errors } = await server.query(query, vars)
+      expect(errors).not.toBeTruthy()
+    })
+
+    test('removeUser mutation for athlete', async () => {
+      const server = mockServer(typeDefs)
+      const query = `
+        mutation removeUser($id: ID!) {
+          removeUser(id: $id) {
+            ... on Athlete {
+              name
+              surname1
+              surname2
+              phone
+              role
+              email
+              password
+              pathology
+              observations
+              birthday
+              specialty
+            }
+          }
+        }
+      `
+      const vars = {
+        id: 'i934ljf',
       }
       await expect(server.query(query, vars)).resolves.toBeTruthy()
       const { errors } = await server.query(query, vars)

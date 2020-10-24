@@ -7,7 +7,7 @@ const { models } = require('../../../types')
 describe('User resolvers', () => {
   // QUERIES
   describe('Queries', () => {
-    test('user gets one by id in args', async () => {
+    test('users gets all users', async () => {
       const users = await models.User.create(
         {
           name: 'Nico',
@@ -41,11 +41,26 @@ describe('User resolvers', () => {
         expect(match).toBeTruthy()
       })
     })
+
+    test('user gets one by id in args', async () => {
+      const user = await models.User.create({
+        name: 'Nico',
+        surname1: 'Acosta',
+        surname2: 'Pachon',
+        email: 'nicoacosta@gmail.com',
+        password: '12345',
+        phone: '648861679',
+        role: 'ADMIN',
+      })
+
+      const result = await resolvers.Query.user(null, { id: user._id }, models)
+      expect(`${result._id}`).toBe(`${user._id}`)
+    })
   })
 
   // MUTATIONS
   describe('Mutations', () => {
-    test('createUser creates a new product from args', async () => {
+    test('createUser creates a new user from args', async () => {
       const args = {
         input: {
           name: 'Nico',
@@ -56,7 +71,7 @@ describe('User resolvers', () => {
         },
       }
 
-      const result = await resolvers.Mutation.createUser(null, args)
+      const result = await resolvers.Mutation.createUser(null, args, models)
 
       Object.keys(args.input).forEach(async (field) => {
         if (field === 'password') {
@@ -70,6 +85,46 @@ describe('User resolvers', () => {
           expect(result[field]).toBe(args.input[field])
         }
       })
+    })
+
+    test('updateUser updates existing user from args', async () => {
+      const user = await models.User.create({
+        name: 'Nico',
+        surname1: 'Acosta',
+        email: 'nicoacosta@gmail.com',
+        password: '12345',
+        role: 'ADMIN',
+      })
+
+      const args = {
+        id: user._id,
+        input: {
+          name: 'Nicolas',
+        },
+      }
+
+      const result = await resolvers.Mutation.updateUser(null, args, models)
+
+      expect(`${result._id}`).toBe(`${user._id}`)
+      expect(result.name).toBe('Nicolas')
+    })
+
+    test('removeUser updates existing user from args', async () => {
+      const user = await models.User.create({
+        name: 'Nico',
+        surname1: 'Acosta',
+        email: 'nicoacosta@gmail.com',
+        password: '12345',
+        role: 'ADMIN',
+      })
+
+      const args = {
+        id: user._id,
+      }
+
+      const result = await resolvers.Mutation.removeUser(null, args, models)
+
+      expect(`${result._id}`).toBe(`${user._id}`)
     })
 
     test('signin from args', async () => {
@@ -97,16 +152,16 @@ describe('User resolvers', () => {
       expect(userFromToken).toBeTruthy()
       expect(user).toMatchObject(result.user)
     })
+  })
 
-    // TYPES
-    describe('Types', () => {
-      test('resolves user interface', async () => {
-        const resolver = resolvers.User.__resolveType
-        expect(await resolver({ role: 'ADMIN' }, models)).toBe('Admin')
-        expect(await resolver({ role: 'TRAINER' }, models)).toBe('Trainer')
-        expect(await resolver({ role: 'ATHLETE' }, models)).toBe('Athlete')
-        expect(await resolver({ role: 'nope' }, models)).toBe(undefined)
-      })
+  // TYPES
+  describe('Types', () => {
+    test('resolves user interface', async () => {
+      const resolver = resolvers.User.__resolveType
+      expect(await resolver({ role: 'ADMIN' }, models)).toBe('Admin')
+      expect(await resolver({ role: 'TRAINER' }, models)).toBe('Trainer')
+      expect(await resolver({ role: 'ATHLETE' }, models)).toBe('Athlete')
+      expect(await resolver({ role: 'nope' }, models)).toBe(undefined)
     })
   })
 })

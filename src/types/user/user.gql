@@ -110,7 +110,7 @@ input SigninInput {
 }
 
 type Query {
-  user(input: ID!): User! @authorized(roles: [ADMIN, TRAINER]) @authenticated
+  user(id: ID!): User! @authorized(roles: [ADMIN, TRAINER]) @authenticated
   users: [User]! @authorized(roles: [ADMIN, TRAINER]) @authenticated
 }
 
@@ -118,6 +118,12 @@ type Mutation {
   createUser(input: NewUserInput!): User!
     @authorized(roles: [ADMIN, TRAINER])
     @authenticated
+
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+    @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
+
+  removeUser(id: ID!): User! @authorized(roles: [ADMIN, TRAINER]) @authenticated
 
   signin(input: SigninInput!): AuthUser!
 }
