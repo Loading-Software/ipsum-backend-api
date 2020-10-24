@@ -1,3 +1,7 @@
+const task = async (_, { id }, { Task }) => {
+  return await Task.findById(id).lean().exec()
+}
+
 const tasks = async (_, args, { Task }) => {
   return await Task.find({ ...args })
     .lean()
@@ -29,6 +33,7 @@ const deleteTask = async (_, { id }, { user, Task }) => {
 
 module.exports = {
   Query: {
+    task,
     tasks,
   },
   Mutation: {
