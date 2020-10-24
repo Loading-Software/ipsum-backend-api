@@ -49,7 +49,6 @@ module.exports = {
       if (user.role !== 'ATHLETE') {
         user['tasks'] = await Task.find({ createdBy: user._id }).lean().exec()
       }
-
       return userTypeMatcher[user.role]
     },
   },
