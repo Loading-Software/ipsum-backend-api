@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, AuthenticationError } = require('apollo-server')
 const utilsDB = require('./utils/populateDB')
 const config = require('./config')
 const { getUserFromToken } = require('./utils/auth')
@@ -30,6 +30,12 @@ const start = async () => {
     async context({ req }) {
       const token = req.headers.authorization
       const user = await getUserFromToken(token)
+
+      if (!user) {
+        throw new AuthenticationError(
+          'user not found from token. It may be expired'
+        )
+      }
 
       return { ...models, user }
     },
