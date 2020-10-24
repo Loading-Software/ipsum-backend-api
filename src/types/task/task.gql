@@ -28,7 +28,5 @@ extend type Mutation {
     @authorized(roles: [ADMIN, TRAINER])
     @authenticated
 
-  deleteTask(input: ID!): Task!
-    @authorized(roles: [ADMIN, TRAINER])
-    @authenticated
+  deleteTask(id: ID!): Task! @authorized(roles: [ADMIN, TRAINER]) @authenticated
 }

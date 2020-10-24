@@ -8,23 +8,21 @@ const createTask = async (_, args, { user, Task }) => {
   return await Task.create({ ...args.input, createdBy: user._id })
 }
 
-// TODO:
 const updateTask = async (_, args, { user, Task }) => {
   return await Task.create({ ...args.input, createdBy: user._id })
 }
 
-// TODO: Check role, an admin can delete without checks
-const deleteTask = async (_, args, { user, Task }) => {
-  const task = await Task.findById({ ...args.input })
+const deleteTask = async (_, { id }, { user, Task }) => {
+  const task = await Task.findById(id)
 
   if (!task) {
     // Task does not exist in db
-    throw new Error(`task with id ${args.input._id} not found`)
+    throw new Error(`task with id ${id} not found`)
   } else if (!task.createdBy.equals(user._id)) {
     // Must be a
     throw new Error('cannot delete task you do not own')
   } else {
-    await Task.deleteOne({ ...args.input })
+    await Task.deleteById(id)
     return task
   }
 }
