@@ -12,8 +12,8 @@ const createTask = async (_, args, { user, Task }) => {
   return await Task.create({ ...args.input, createdBy: user._id })
 }
 
-const updateTask = async (_, args, { user, Task }) => {
-  return await Task.create({ ...args.input, createdBy: user._id })
+const updateTask = async (_, { id, input }, { user, Task }) => {
+  return await Task.findByIdAndUpdate(id, input, { new: true })
 }
 
 const deleteTask = async (_, { id }, { user, Task }) => {

@@ -11,11 +11,12 @@ input NewTaskInput {
 }
 
 input UpdateTaskInput {
-  name: String!
-  description: String!
+  name: String
+  description: String
 }
 
 extend type Query {
+  task(id: ID!): Task! @authenticated
   tasks: [Task]! @authenticated
 }
 
@@ -24,7 +25,7 @@ extend type Mutation {
     @authorized(roles: [ADMIN, TRAINER])
     @authenticated
 
-  updateTask(input: UpdateTaskInput!): Task!
+  updateTask(id: ID!, input: UpdateTaskInput!): Task!
     @authorized(roles: [ADMIN, TRAINER])
     @authenticated
 
