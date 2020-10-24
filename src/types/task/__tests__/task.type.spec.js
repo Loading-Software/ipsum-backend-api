@@ -3,7 +3,7 @@ const { schemaToTemplateContext } = require('graphql-codegen-core')
 const { schemaTypes } = require('../../../utils/schema')
 const { mockServer } = require('graphql-tools')
 
-describe('User schema', () => {
+describe('Task schema', () => {
   let schema, typeDefs
   beforeAll(async () => {
     const root = `

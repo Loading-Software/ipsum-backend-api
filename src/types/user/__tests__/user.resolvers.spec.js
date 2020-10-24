@@ -1,15 +1,13 @@
-const mongoose = require('mongoose')
 const { getUserFromToken } = require('../../../utils/auth')
-const { AuthenticationError } = require('apollo-server')
 const resolvers = require('../user.resolvers')
 const { models } = require('../../../types')
 
 describe('User resolvers', () => {
   // QUERIES
   describe('Queries', () => {
-    test('users gets all users', async () => {
-      const users = await models.User.create(
-        {
+    describe('without auth', () => {
+      test('user gets one by id in args', async () => {
+        const user = await models.User.create({
           name: 'Nico',
           surname1: 'Acosta',
           surname2: 'Pachon',
@@ -17,44 +15,50 @@ describe('User resolvers', () => {
           password: '12345',
           phone: '648861679',
           role: 'ADMIN',
-        },
-        {
-          name: 'Joan',
-          surname1: 'Rao',
-          surname2: 'de Azua',
-          email: 'joanrao@gmail.com',
-          password: '56789',
-          phone: '643861679',
-          role: 'TRAINER',
-        }
-      )
+        })
 
-      const result = await resolvers.Query.users(
-        null,
-        {},
-        { User: models.User }
-      )
-
-      expect(result).toHaveLength(2)
-      users.forEach((u) => {
-        const match = result.find((r) => `${r._id}` === `${u._id}`)
-        expect(match).toBeTruthy()
-      })
-    })
-
-    test('user gets one by id in args', async () => {
-      const user = await models.User.create({
-        name: 'Nico',
-        surname1: 'Acosta',
-        surname2: 'Pachon',
-        email: 'nicoacosta@gmail.com',
-        password: '12345',
-        phone: '648861679',
-        role: 'ADMIN',
+        const result = await resolvers.Query.user(
+          null,
+          { id: user._id },
+          models
+        )
+        expect(`${result._id}`).toBe(`${user._id}`)
       })
 
-      const result = await resolvers.Query.user(null, { id: user._id }, models)
-      expect(`${result._id}`).toBe(`${user._id}`)
+      test('users gets all users', async () => {
+        const users = await models.User.create(
+          {
+            name: 'Nico',
+            surname1: 'Acosta',
+            surname2: 'Pachon',
+            email: 'nicoacosta@gmail.com',
+            password: '12345',
+            phone: '648861679',
+            role: 'ADMIN',
+          },
+          {
+            name: 'Joan',
+            surname1: 'Rao',
+            surname2: 'de Azua',
+            email: 'joanrao@gmail.com',
+            password: '56789',
+            phone: '643861679',
+            role: 'TRAINER',
+          }
+        )
+
+        const result = await resolvers.Query.users(
+          null,
+          {},
+          { User: models.User }
+        )
+
+        expect(result).toHaveLength(2)
+        users.forEach((u) => {
+          const match = result.find((r) => `${r._id}` === `${u._id}`)
+          expect(match).toBeTruthy()
+        })
+      })
     })
   })
 
