@@ -26,7 +26,7 @@ $ npm run dev
 For testing environment
 
 ```bash
-$ npm run test
+$ npm run testing
 ```
 
 Config's files are located in **/src/config/** with the token config and db url.
