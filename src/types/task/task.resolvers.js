@@ -12,23 +12,12 @@ const createTask = async (_, args, { user, Task }) => {
   return await Task.create({ ...args.input, createdBy: user._id })
 }
 
-const updateTask = async (_, { id, input }, { user, Task }) => {
+const updateTask = async (_, { id, input }, { Task }) => {
   return await Task.findByIdAndUpdate(id, input, { new: true })
 }
 
-const deleteTask = async (_, { id }, { user, Task }) => {
-  const task = await Task.findById(id)
-
-  if (!task) {
-    // Task does not exist in db
-    throw new Error(`task with id ${id} not found`)
-  } else if (!task.createdBy.equals(user._id)) {
-    // Must be a
-    throw new Error('cannot delete task you do not own')
-  } else {
-    await Task.deleteById(id)
-    return task
-  }
+const deleteTask = async (_, { id }, { Task }) => {
+  return await Task.findByIdAndDelete(id)
 }
 
 module.exports = {

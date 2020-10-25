@@ -47,11 +47,7 @@ describe('User resolvers', () => {
           }
         )
 
-        const result = await resolvers.Query.users(
-          null,
-          {},
-          { User: models.User }
-        )
+        const result = await resolvers.Query.users(null, {}, models)
 
         expect(result).toHaveLength(2)
         users.forEach((u) => {
@@ -113,7 +109,7 @@ describe('User resolvers', () => {
       expect(result.name).toBe('Nicolas')
     })
 
-    test('removeUser updates existing user from args', async () => {
+    test('removeUser deletes existing user from args', async () => {
       const user = await models.User.create({
         name: 'Nico',
         surname1: 'Acosta',
