@@ -115,4 +115,28 @@ describe('Task resolvers', () => {
       })
     })
   })
+
+  // TYPES
+  describe('Types', () => {
+    test('resolves task createdBy', async () => {
+      const userModel = {
+        name: 'Nico',
+        surname1: 'Acosta',
+        surname2: 'Pachon',
+        email: 'nicoacosta@gmail.com',
+        password: '12345',
+        phone: '648861679',
+        role: 'ADMIN',
+      }
+
+      const user = await models.User.create(userModel)
+      const task = await models.Task.create({
+        name: 'Task A',
+        description: 'Description A',
+        createdBy: user._id,
+      })
+      const resolver = resolvers.Task.createdBy
+      expect(user).toMatchObject(await resolver(task, null, models))
+    })
+  })
 })
