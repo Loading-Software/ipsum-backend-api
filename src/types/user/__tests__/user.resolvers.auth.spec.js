@@ -2,8 +2,7 @@ const { AuthenticationError, ApolloServer } = require('apollo-server')
 const { createTestClient } = require('apollo-server-testing')
 const gql = require('graphql-tag')
 const { models } = require('../../../types')
-const { schemaTypes } = require('../../../utils/schema')
-const resolvers = require('../user.resolvers')
+const { schemaTypes, resolvers } = require('../../../utils/schema')
 const {
   FormatDateDirective,
   AuthenticationDirective,
@@ -274,7 +273,7 @@ describe('User resolvers with auth', () => {
     `
 
     const REMOVE_USER = gql`
-      mutation updateUser($id: ID!) {
+      mutation removeUser($id: ID!) {
         removeUser(id: $id) {
           _id
           name

@@ -64,18 +64,7 @@ describe('Task resolvers', () => {
         const result = await resolvers.Mutation.createTask(null, args, ctx)
 
         Object.keys(args.input).forEach(async (field) => {
-          if (field === 'password') {
-            const userDBModel = new models.User({
-              password: result[field],
-            })
-            const isPasswordRight = await userDBModel.checkPassword(
-              args.input.password
-            )
-            expect(isPasswordRight).toBeTruthy()
-            expect(isPasswordRight).toBe(true)
-          } else {
-            expect(result[field]).toBe(args.input[field])
-          }
+          expect(result[field]).toBe(args.input[field])
         })
       })
 
