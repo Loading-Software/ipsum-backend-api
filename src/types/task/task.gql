@@ -2,7 +2,7 @@ type Task {
   _id: ID!
   name: String!
   description: String!
-  createdBy: User! @authorized(roles: [ADMIN])
+  createdBy: User! @authorized(roles: [ADMIN, TRAINER])
 }
 
 input NewTaskInput {
