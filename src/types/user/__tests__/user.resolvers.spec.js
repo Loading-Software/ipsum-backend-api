@@ -128,7 +128,7 @@ describe('User resolvers', () => {
     })
 
     test('signin from args', async () => {
-      const userToCreate = {
+      const userModel = {
         name: 'Nico',
         surname1: 'Acosta',
         surname2: 'Pachon',
@@ -138,12 +138,12 @@ describe('User resolvers', () => {
         role: 'ADMIN',
       }
 
-      const user = await models.User.create(userToCreate)
+      const user = await models.User.create(userModel)
 
       const args = {
         input: {
-          email: userToCreate.email,
-          password: userToCreate.password,
+          email: userModel.email,
+          password: userModel.password,
         },
       }
 
