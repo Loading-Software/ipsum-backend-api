@@ -31,12 +31,6 @@ const start = async () => {
       const token = req.headers.authorization
       const user = await getUserFromToken(token)
 
-      if (!user) {
-        throw new AuthenticationError(
-          'user not found from token. It may be expired'
-        )
-      }
-
       return { ...models, user }
     },
   })
