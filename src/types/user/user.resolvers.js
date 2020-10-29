@@ -59,11 +59,26 @@ module.exports = {
     signin,
   },
   User: {
-    async __resolveType(user, { Task }) {
-      if (user.role !== 'ATHLETE') {
-        user['tasks'] = await Task.find({ createdBy: user._id }).lean().exec()
-      }
+    async __resolveType(user) {
       return userTypeMatcher[user.role]
+    },
+  },
+  Admin: {
+    async tasks(_, __, { user, Task }) {
+      if (!user) {
+        // On sign in we don't have an user yet
+        return []
+      }
+      return await Task.find({ createdBy: user._id }).lean().exec()
+    },
+  },
+  Trainer: {
+    async tasks(_, __, { user, Task }) {
+      if (!user) {
+        // On sign in we don't have an user yet
+        return []
+      }
+      return await Task.find({ createdBy: user._id }).lean().exec()
     },
   },
 }
