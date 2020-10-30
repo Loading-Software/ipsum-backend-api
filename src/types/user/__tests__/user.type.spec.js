@@ -547,5 +547,9 @@ describe('User schema', () => {
       const { errors } = await server.query(query, vars)
       expect(errors).not.toBeTruthy()
     })
+
+    test('signup mutation', async () => {
+      // To be implemented
+    })
   })
 })

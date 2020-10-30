@@ -47,6 +47,10 @@ const signin = async (_, { input }, { User }) => {
   return { token, user }
 }
 
+const signup = (_, { input }, { User }) => {
+  throw new Error('Signup not implemented!')
+}
+
 module.exports = {
   Query: {
     user,
@@ -57,6 +61,7 @@ module.exports = {
     updateUser,
     removeUser,
     signin,
+    signup,
   },
   User: {
     async __resolveType(user) {
