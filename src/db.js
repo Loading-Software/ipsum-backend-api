@@ -7,5 +7,6 @@ module.exports = (url = options.dbUrl, opts = {}) => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   })
 }

@@ -8,8 +8,8 @@
   "scripts": {
     "devWin": "SET NODE_ENV=dev& nodemon src/index.js",
     "testingWin": "SET NODE_ENV=testing& nodemon src/index.js",
-    "dev": "SET NODE_ENV=dev& nodemon src/index.js",
-    "testing": "SET NODE_ENV=testing& nodemon src/index.js",
+    "dev": "NODE_ENV=dev& nodemon src/index.js",
+    "testing": "NODE_ENV=testing& nodemon src/index.js",
     "test": "jest",
     "test-schema": "jest -- -t='Product-schema'"
   },
