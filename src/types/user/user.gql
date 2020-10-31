@@ -126,5 +126,5 @@ type Mutation {
   removeUser(id: ID!): User! @authorized(roles: [ADMIN, TRAINER]) @authenticated
 
   signin(input: SigninInput!): AuthUser!
-  signup(input: String!): AuthUser!
+  signup(input: SigninInput!): AuthUser!
 }

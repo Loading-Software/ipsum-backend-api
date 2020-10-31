@@ -47,8 +47,18 @@ const signin = async (_, { input }, { User }) => {
   return { token, user }
 }
 
-const signup = (_, { input }, { User }) => {
-  throw new Error('Signup not implemented!')
+const signup = async (_, { input }, { User }) => {
+  const user = await User.findOne({ email: input.email })
+
+  if (!user) {
+    throw new Error('Oops, an error appeared. Please report to Ipsum Sports.')
+  }
+
+  user.password = input.password
+  user.save()
+  const token = createToken(user)
+
+  return { token, user }
 }
 
 module.exports = {
