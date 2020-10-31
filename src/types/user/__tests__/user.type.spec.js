@@ -233,9 +233,9 @@ describe('User schema', () => {
       })
     })
 
-    test('SigninInput has base fields', () => {
+    test('SignInput has base fields', () => {
       let type = schema.inputTypes.find((i) => {
-        return i.name === 'SigninInput'
+        return i.name === 'SignInput'
       })
 
       expect(type).toBeTruthy()
@@ -508,7 +508,7 @@ describe('User schema', () => {
     test('signin mutation', async () => {
       const server = mockServer(typeDefs)
       const query = `
-        mutation($input: SigninInput!) {
+        mutation($input: SignInput!) {
           signin(input: $input) {
             token
             user {
@@ -549,7 +549,46 @@ describe('User schema', () => {
     })
 
     test('signup mutation', async () => {
-      // To be implemented
+      const server = mockServer(typeDefs)
+      const query = `
+        mutation($input: SignInput!) {
+          signup(input: $input) {
+            token
+            user {
+              ... on Admin {
+                _id
+                name
+                surname1
+                tasks {
+                  _id
+                  name
+                }
+              }
+              ... on Trainer {
+                _id
+                name
+                tasks {
+                  _id
+                  name
+                }
+              }
+              ... on Athlete {
+                _id
+                name
+              }
+            }
+          }
+        }
+      `
+      const vars = {
+        input: {
+          email: 'example@example',
+          password: '12345',
+        },
+      }
+      await expect(server.query(query, vars)).resolves.toBeTruthy()
+      const { errors } = await server.query(query, vars)
+      expect(errors).not.toBeTruthy()
     })
   })
 })
