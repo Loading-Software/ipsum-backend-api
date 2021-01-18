@@ -28,7 +28,12 @@ const start = async () => {
       formatDate: FormatDateDirective,
     },
     async context({ req }) {
-      const token = req.headers.authorization
+      let token = req.headers.authorization
+
+      if (token && token.startsWith('Bearer ')) {
+        token = token.slice(7, token.length)
+      }
+
       const user = await getUserFromToken(token)
 
       return { ...models, user }
