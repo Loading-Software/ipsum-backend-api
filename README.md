@@ -9,6 +9,7 @@ $ npm install
 ```
 
 [MongoDB Community](https://docs.mongodb.com/manual/administration/install-community/) installed or a [cloud based solution](https://www.mongodb.com/cloud) are needed.
+[MongoDB Compass](https://www.mongodb.com/try/download/compass) useful for inspect the schema.
 
 ## Usage
 
