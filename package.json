@@ -1,5 +1,5 @@
 {
-  "name": "IpsumAPI",
+  "name": "Apollo api",
   "version": "1.0.0",
   "description": "IPSUM software API to interact with the database, and other functions ",
   "author": "Loading-Software",
@@ -8,8 +8,9 @@
   "scripts": {
     "devWin": "SET NODE_ENV=dev& nodemon src/index.js",
     "testingWin": "SET NODE_ENV=testing& nodemon src/index.js",
-    "dev": "NODE_ENV=dev& nodemon src/index.js",
-    "testing": "NODE_ENV=testing& nodemon src/index.js",
+    "dev": "NODE_ENV=dev nodemon src/index.js",
+    "testing": "NODE_ENV=testing nodemon src/index.js",
+    "cloud": "NODE_ENV=cloud nodemon src/index.js",
     "test": "jest",
     "test-schema": "jest -- -t='Product-schema'"
   },
