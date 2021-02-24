@@ -23,6 +23,9 @@ switch (env) {
   case 'testing':
     envConfig = require('./testing')
     break
+  case 'cloud':
+    envConfig = require('./cloud')
+    break
   default:
     envConfig = require('./dev')
 }
