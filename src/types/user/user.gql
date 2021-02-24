@@ -1,0 +1,191 @@
+enum Role {
+  ADMIN
+  TRAINER
+  ATHLETE
+}
+
+interface User {
+  _id: ID!
+  name: String!
+  surname1: String!
+  surname2: String
+  phone: String
+  role: Role!
+  email: String!
+  password: String!
+  createdAt: String @formatDate
+  updatedAt: String @formatDate
+  resetPasswordEmailSent: String @formatDate
+  lastResetPassword: String @formatDate
+}
+
+type Admin implements User {
+  _id: ID!
+  name: String!
+  surname1: String!
+  surname2: String
+  phone: String
+  role: Role!
+  email: String!
+  password: String!
+  createdAt: String @formatDate
+  updatedAt: String @formatDate
+  resetPasswordEmailSent: String @formatDate
+  lastResetPassword: String @formatDate
+  tasks: [Task!]
+}
+
+type Trainer implements User {
+  _id: ID!
+  name: String!
+  surname1: String!
+  surname2: String
+  phone: String
+  role: Role!
+  email: String!
+  password: String!
+  createdAt: String @formatDate
+  updatedAt: String @formatDate
+  resetPasswordEmailSent: String @formatDate
+  lastResetPassword: String @formatDate
+  tasks: [Task!]
+}
+
+type Athlete implements User {
+  _id: ID!
+  name: String!
+  surname1: String!
+  surname2: String
+  phone: String
+  role: Role!
+  email: String!
+  password: String!
+  createdAt: String @formatDate
+  updatedAt: String @formatDate
+  resetPasswordEmailSent: String @formatDate
+  lastResetPassword: String @formatDate
+  pathology: String
+  observations: String
+  birthday: String
+  specialty: String
+  trainer: User
+}
+
+type AuthUser {
+  token: String!
+  user: User!
+}
+
+input NewUserInput {
+  name: String!
+  surname1: String!
+  surname2: String
+  phone: String
+  role: Role!
+  email: String!
+  password: String!
+  pathology: String
+  observations: String
+  birthday: String
+  specialty: String
+}
+
+input UpdateUserInput {
+  name: String
+  surname1: String
+  surname2: String
+  phone: String
+  role: Role
+  email: String
+  password: String
+  pathology: String
+  observations: String
+  birthday: String
+  specialty: String
+}
+
+input SignInput {
+  email: String!
+  password: String!
+}
+
+type Query {
+  #### Description
+  # Gets an user from specific *id*.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Arguments
+  # **id**: ID of the user.
+  #
+  #### Return
+  # Returns the user with the specific id provided as argument.
+  user(id: ID!): User! @authorized(roles: [ADMIN, TRAINER]) @authenticated
+
+  #### Description
+  # Gets an array with all users.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Return
+  # Returns an array with all users.
+  users: [User]! @authorized(roles: [ADMIN, TRAINER]) @authenticated
+}
+
+type Mutation {
+  #### Description
+  # Creates a new user from argument *input* and returns it.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Arguments
+  # **input**: NewUserInput of the new user.
+  #
+  #### Return
+  # Returns the new user with the data provided as argument.
+  createUser(input: NewUserInput!): User!
+    @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
+
+  #### Description
+  # Updates an user from arguments *id* and *input*, returns updated user.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Arguments
+  # **id**: ID of the user.
+  # **input**: UpdateUserInput with the data to be updated.
+  #
+  #### Return
+  # Returns the updated user.
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+    @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
+
+  #### Description
+  # Removes an user from argument *id* and returns it.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Arguments
+  # **id**: ID of the user.
+  #
+  #### Return
+  # Returns the removed user.
+  removeUser(id: ID!): User! @authorized(roles: [ADMIN, TRAINER]) @authenticated
+
+  #### Description
+  # Signs with the argument *input* and returns a *AuthUser*.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Arguments
+  # input: SignInput with the credentials.
+  #
+  #### Return
+  # Returns a *AuthUser*.
+  signin(input: SignInput!): AuthUser!
+
+  #### TBD
+  signup(input: SignInput!): AuthUser!
+}

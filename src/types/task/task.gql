@@ -1,0 +1,85 @@
+type Task {
+  _id: ID!
+  name: String!
+  description: String!
+  createdBy: User! @authorized(roles: [ADMIN, TRAINER])
+}
+
+input NewTaskInput {
+  name: String!
+  description: String!
+}
+
+input UpdateTaskInput {
+  name: String
+  description: String
+}
+
+extend type Query {
+  #### Description
+  # Gets a task from specific *id*.
+  #
+  # *Requires to be authenticated*
+  #
+  #### Arguments
+  # **id**: ID of the task.
+  #
+  #### Return
+  # Returns the task with the specific id provided as argument.
+  task(id: ID!): Task! @authenticated
+
+  #### Description
+  # Gets an array with all tasks.
+  #
+  # *Requires to be authenticated*
+  #
+  #### Arguments
+  # **id**: ID of the task.
+  #
+  #### Return
+  # Returns the task with the specific id provided as argument.
+  tasks: [Task]! @authenticated
+}
+
+extend type Mutation {
+  #### Description
+  # Creates a task an returns it.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Arguments
+  # **input**: NewTaskInput of the task.
+  #
+  #### Return
+  # Returns the created task.
+  createTask(input: NewTaskInput!): Task!
+    @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
+
+  #### Description
+  # Updates a task an returns it.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Arguments
+  # **id**: ID of the task.
+  # **input**: UpdateTaskInput of the task.
+  #
+  #### Return
+  # Returns the updated task.
+  updateTask(id: ID!, input: UpdateTaskInput!): Task!
+    @authorized(roles: [ADMIN, TRAINER])
+    @authenticated
+
+  #### Description
+  # Deletes a task an returns it.
+  #
+  # *Requires to be authenticated and authorized; admin or trainer.*
+  #
+  #### Arguments
+  # **id**: ID of the task.
+  #
+  #### Return
+  # Returns the deleted task.
+  deleteTask(id: ID!): Task! @authorized(roles: [ADMIN, TRAINER]) @authenticated
+}

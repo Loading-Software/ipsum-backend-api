@@ -1,0 +1,5 @@
+directive @authenticated on FIELD_DEFINITION
+directive @authorized(roles: [Role!]! = [ADMIN]) on FIELD_DEFINITION
+directive @formatDate(
+  format: String = "yyyy, MM, dd, hh, m, s"
+) on FIELD_DEFINITION
